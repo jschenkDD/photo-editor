@@ -49,6 +49,14 @@ public final class PhotoEditorViewController: UIViewController {
      */
     public var colors  : [UIColor] = []
     
+    public var textMap:[String: String]  = [
+        "Done": "Done",
+        "Cancel": "Cancel",
+        "Original": "Original",
+        "Square": "Square",
+        "Constrain": "Constrain"
+    ]
+    
     public var photoEditorDelegate: PhotoEditorDelegate?
     var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
     
@@ -103,6 +111,8 @@ public final class PhotoEditorViewController: UIViewController {
         configureCollectionView()
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         hideControls()
+        
+        doneButton.setTitle(textMap["Done"], for: UIControlState.normal )
     }
     
     func configureCollectionView() {

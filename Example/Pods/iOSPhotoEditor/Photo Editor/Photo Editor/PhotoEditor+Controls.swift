@@ -33,6 +33,11 @@ extension PhotoEditorViewController {
         let controller = CropViewController()
         controller.delegate = self
         controller.image = image
+        controller.textMap = [
+            "Constrain": self.textMap["Constrain"]!,
+            "Square": self.textMap["Square"]!,
+            "Cancel": self.textMap["Cancel"]!,
+        ]
         let navController = UINavigationController(rootViewController: controller)
         present(navController, animated: true, completion: nil)
     }

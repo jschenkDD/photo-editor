@@ -49,6 +49,14 @@ public final class PhotoEditorViewController: UIViewController {
      */
     public var colors  : [UIColor] = []
     
+    public var textMap:[String: String]  = [
+        "Done": "Done",
+        "Cancel": "Cancel",
+        "Original": "Original",
+        "Square": "Square",
+        "Constrain": "Constrain"
+    ]
+    
     public var photoEditorDelegate: PhotoEditorDelegate?
     var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
     
@@ -93,16 +101,18 @@ public final class PhotoEditorViewController: UIViewController {
         self.view.addGestureRecognizer(edgePan)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow),
-                                               name: UIResponder.keyboardDidShowNotification, object: nil)
+                                               name: .UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification, object: nil)
+                                               name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillChangeFrame(_:)),
-                                               name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+                                               name: .UIKeyboardWillChangeFrame, object: nil)
         
         
         configureCollectionView()
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         hideControls()
+        
+        doneButton.setTitle(textMap["Done"], for: UIControlState.normal )
     }
     
     func configureCollectionView() {

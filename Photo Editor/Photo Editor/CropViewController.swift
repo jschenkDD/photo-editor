@@ -15,6 +15,13 @@ public protocol CropViewControllerDelegate: class {
 
 open class CropViewController: UIViewController {
     open weak var delegate: CropViewControllerDelegate?
+    
+    public var textMap: [String: String] = [
+    "Constrain": "Constrain",
+    "Square": "Square",
+    "Cancel": "Cancel",
+    ]
+    
     open var image: UIImage? {
         didSet {
             cropView?.image = image
@@ -91,7 +98,11 @@ open class CropViewController: UIViewController {
         
         if self.toolbarItems == nil {
             let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-            let constrainButton = UIBarButtonItem(title: "Constrain", style: .plain, target: self, action: #selector(CropViewController.constrain(_:)))
+            var text: String = "Constrain";
+            if (textMap["Constrain"] != nil){
+                text = textMap["Constrain"]!
+            }
+            let constrainButton = UIBarButtonItem(title: text, style: .plain, target: self, action: #selector(CropViewController.constrain(_:)))
             toolbarItems = [flexibleSpace, constrainButton, flexibleSpace]
         }
         
@@ -145,7 +156,11 @@ open class CropViewController: UIViewController {
     
     @objc func constrain(_ sender: UIBarButtonItem) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let original = UIAlertAction(title: "Original", style: .default) { [unowned self] action in
+        var text: String = "Original";
+        if (textMap["Original"] != nil){
+            text = textMap["Original"]!
+        }
+        let original = UIAlertAction(title: text, style: .default) { [unowned self] action in
             guard let image = self.cropView?.image else {
                 return
             }
@@ -165,7 +180,11 @@ open class CropViewController: UIViewController {
             self.cropView?.cropRect = cropRect
         }
         actionSheet.addAction(original)
-        let square = UIAlertAction(title: "Square", style: .default) { [unowned self] action in
+        var squareText: String = "Square";
+        if (textMap["Square"] != nil){
+            squareText = textMap["Square"]!
+        }
+        let square = UIAlertAction(title: squareText, style: .default) { [unowned self] action in
             let ratio: CGFloat = 1.0
 //            self.cropView?.cropAspectRatio = ratio
             if var cropRect = self.cropView?.cropRect {
@@ -213,14 +232,15 @@ open class CropViewController: UIViewController {
             }
         }
         actionSheet.addAction(widescreen)
-        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned self] action in
+        
+        var cancelText: String = "Cancel";
+        if (textMap["Cancel"] != nil){
+            cancelText = textMap["Cancel"]!
+        }
+        let cancel = UIAlertAction(title: cancelText, style: .default) { [unowned self] action in
             self.dismiss(animated: true, completion: nil)
         }
         actionSheet.addAction(cancel)
-        
-        if let popoverController = actionSheet.popoverPresentationController {
-            popoverController.barButtonItem = sender
-        }
         
         present(actionSheet, animated: true, completion: nil)
     }
