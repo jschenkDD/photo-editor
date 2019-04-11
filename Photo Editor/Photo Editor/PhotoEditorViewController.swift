@@ -101,18 +101,18 @@ public final class PhotoEditorViewController: UIViewController {
         self.view.addGestureRecognizer(edgePan)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow),
-                                               name: .UIKeyboardDidShow, object: nil)
+                                               name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
-                                               name: .UIKeyboardWillHide, object: nil)
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillChangeFrame(_:)),
-                                               name: .UIKeyboardWillChangeFrame, object: nil)
+                                               name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
         
         configureCollectionView()
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         hideControls()
         
-        doneButton.setTitle(textMap["Done"], for: UIControlState.normal )
+        doneButton.setTitle(textMap["Done"], for: UIControl.State.normal )
     }
     
     func configureCollectionView() {
